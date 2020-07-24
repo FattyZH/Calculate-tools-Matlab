@@ -5,7 +5,7 @@ Potential = poisson_dst(div);
 [uk,vk] = gradient(Potential);
 u = u-uk;
 v = v-vk;
-surf(divergence(u,v));
+
 ul = -(u(1:end-1,1)+u(2:end,1))/2;ur = (u(1:end-1,end)+u(2:end,end))/2;
 vb = -(v(1,1:end-1)+v(1,2:end))/2;vu = (v(end,1:end-1)+v(end,2:end))/2;
 vm = mean([ul(:);ur(:);vb(:);vu(:)]);

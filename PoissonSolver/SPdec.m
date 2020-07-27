@@ -1,10 +1,12 @@
 function[Stream,Potential] = SPdec(u,v)
-div = divergence(u,v);
 
-Potential = poisson_dst(div);
+div = divergence(u,v);
+Potential = zeros(size(div)+2);
+Potential(2:end-1,2:end-1) = poisson_dst(div);
 [uk,vk] = gradient(Potential);
-u = u-uk;
-v = v-vk;
+u = u-uk(2:end-1,2:end-1);
+v = v-vk(2:end-1,2:end-1);
+
 
 ul = -(u(1:end-1,1)+u(2:end,1))/2;ur = (u(1:end-1,end)+u(2:end,end))/2;
 vb = -(v(1,1:end-1)+v(1,2:end))/2;vu = (v(end,1:end-1)+v(end,2:end))/2;
@@ -27,4 +29,5 @@ cur(1,1) = 2*cur(1,1);cur(1,end) = 2*cur(1,end);cur(end,1) = 2*cur(end,1);cur(en
 cur = -cur - 2*curl(u,v);
 
 Stream = poisson_dst(cur);
+Potential = Potential(2:end-1,2:end-1);
 end

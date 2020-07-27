@@ -1,5 +1,10 @@
 function[Stream,Potential] = SPdec(u,v)
 
+unan = isnan(u);
+vnan = isnan(v);
+
+u(unan) = 0;
+v(vnan) = 0;
 div = divergence(u,v);
 Potential = zeros(size(div)+2);
 Potential(2:end-1,2:end-1) = poisson_dst(div);
@@ -30,4 +35,7 @@ cur = -cur - 2*curl(u,v);
 
 Stream = poisson_dst(cur);
 Potential = Potential(2:end-1,2:end-1);
+
+Stream(unan&vnan) = nan;
+Potential(unan&vnan) = nan;
 end
